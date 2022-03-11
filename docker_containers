@@ -1,0 +1,25 @@
+#!/bin/bash
+# sudo might be required in some cases
+
+ACTION=$1
+
+case "$ACTION" in
+   run)
+      docker-compose -f kafka.docker.yml up -d
+      exit 2;;
+   start)
+      echo "Starting containers...."
+      docker start kafka_manager_latest kafka_zookeeper_latest kafka_server_latest
+      exit 2;;
+   stop)
+      echo "Stopping containers...."
+      docker stop kafka_manager_latest kafka_zookeeper_latest kafka_server_latest
+      exit 2;;
+   status)
+      docker ps -a | grep kafka
+      exit 2;;
+   *)
+      echo "Unknown action: '$ACTION'"
+      echo "Syntax: $0 [run|start|stop|status]"
+      exit 2;;
+esac
